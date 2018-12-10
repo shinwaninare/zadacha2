@@ -1,0 +1,133 @@
+body {
+	background-image: url('graves.png'); 
+    background-repeat: no-repeat; 
+	background-size:cover;
+}
+@media print {
+	.test-reklama{
+		display:none;
+	}
+	.toto{
+		display:none;
+	}
+	.menu-1{
+		display:none;
+	}
+	#stixx{
+		width:100%;
+		margin:0% 0% 0px 15%;
+		font-size:25px;
+	}
+	.tk h1 {
+		font-size:30px;
+	}
+	#fenik{
+		width:140%;
+		margin:0px 10px 0px 120px;
+	}
+	#osebe{
+		width:100%;
+		margin:10px 10px 10px 10px;
+		padding:10px;
+		text-align:center;
+	}
+	#osebe img{
+		width:40%;
+	}
+	h3{
+		color:#000;
+	}	
+}
+.main-test {
+	width:100%;
+	height:100%;
+	display:flex;
+	justify-content:space-between;
+}
+.test-reklama {
+	width:200px;
+	height:100%;
+	align-self:center;
+}
+.toto {	
+	width:350px;
+	height:100%;
+	margin:13% 0px 10px 15px;
+	padding:10px;
+}
+.tk {
+	width:70%;
+	height:100%;
+	padding:50px 150px 20px 10px;
+	text-align:center;
+	align-self:center;
+	box-sizing:border-box;
+}
+.reklama-item{
+	left:10px;
+	width:100%;
+	margin:40px 40px 40px 0px;
+}
+.menu-block {
+    position: absolute;
+    display:inline-block;
+	margin:1.5% 0px 0px 6.5%;	
+}
+.menu-1 {
+    padding: 10px;
+    font-size: 20px;
+	cursor: pointer;
+}
+.menu-items {
+	left:0;
+    display: none;
+    position: absolute;
+    background-color: #FFB619;
+    width: 100px;
+    cursor: pointer;
+	border-style:outset;	
+}
+.menu-items #item1,#item2 {
+	padding:15px;
+    display: block;
+}
+.item1-items {
+	border-style:ridge;
+	border-color:#5ED1FF;
+	display: none;
+    position: absolute;
+	left:100px;
+	top:-2px;
+    background-color: #FFB619;
+    width: 150px;
+    cursor: pointer;	
+}
+.item1-items a {
+	border-style:ridge;
+	border-color:#F3A3F7;
+	padding:15px;
+	display:block;
+}
+.item2-items {
+	border-style:ridge;
+	border-color:#5ED1FF;
+	display: none;
+    position: absolute;
+	left:100px;
+	top:48px;
+    background-color: #FFB619;
+    width: 100px;
+}
+.item2-items a {
+	border-color:#F3A3F7;
+	padding:15px;
+	display:block;
+	border-style:ridge;
+}
+.menu-items #item1:hover {background-color:#E6981C}
+.menu-items #item2:hover {background-color:#E6981C}
+.menu-items a:hover {background-color:#E6981C}
+.menu-block:hover .menu-items {display: block}
+.menu-block:hover .menu-1 {color: #8832F0;}
+.menu-items #item1:hover .item1-items {display:block}
+.menu-items #item2:hover .item2-items {display:block}

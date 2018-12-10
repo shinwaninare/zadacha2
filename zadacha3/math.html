@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = 'utf-8'>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Bootstrap</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	</head>
+	<body>
+		<nav class="navbar navbar-light bg-faded" style="background-color: #e3f2fd;">
+			<a class="navbar-brand" href="#">Xcution</a>
+			<ul class="nav navbar-nav  ">
+				 <li class="dropdown">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-th-list"></span> MENU</a>
+	                <ul class="dropdown-menu">
+	                  <li><a href="tables.html">IDM</a></li>
+	                  <li><a href="cat.html">CATS</a></li>
+	                  <li><a href="4eto.html">KIWI ?</a></li>
+	                  <li><a href="math.html">MatAn</a></li>
+	                  <li role="separator" class="divider"></li>
+	                  <li><a href="home.html">HOME</a></li>       
+	                </ul>
+	              </li>
+				<li class="nav-item active">
+				  <a class="nav-link" href="home.html"><span class="glyphicon glyphicon-home"> Home</a>
+				</li>			
+				<li class="nav-item">
+				  <a class="nav-link" href="tables.html">IDM v2.0</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="cat.html">CATS</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="4eto.html">Киви или киви ?</a>
+				</li>
+			</ul>
+		</nav>	
+	<ol class="breadcrumb">
+		<li><a href="home.html">Главная</a></li>
+		<li class="active">Матан</li>
+	</ol>	
+	<div class="container-fluid">
+		<h1 class='alert alert-info'style='text-align: center'>MathML</h1>
+		<table class="table ">
+			<thead>
+				<tr class="active">
+					<th>Почти шпоры</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="success">
+					<td>
+						<h4>Лимит</h4>
+					</td>
+					<td>
+						<div class="container-fluid">
+							<h4>
+								<math>
+					                <munder>
+					                	<mi>lim</mi>
+					                	<mrow>
+					                		<mi>x</mi>
+					                		<mo>&#x2192;</mo>
+					                		<mn>0</mn>
+					                	</mrow>
+					                </munder>
+					                <mfrac>
+					                	<mrow>
+					                		<mi>sin</mi>
+					                		<mfenced>
+					                			<mi>x</mi>
+					                		</mfenced>
+					                	</mrow>
+					                	<mi>x</mi>
+					                </mfrac>
+					                <mo>=</mo>
+					                <mn>1</mn>
+					            </math>
+					        </h4>
+						</div>
+					</td>
+				</tr>
+				<tr class="active">
+					<td>
+						<h4>Корни</h4>
+					</td>
+					<td>
+						<div class="container-fluid">
+							<h4>
+								<math>
+					                <msub>
+										<mi>x</mi>
+										<mrow>
+											<mn>1</mn> 
+											<mo>, </mo>
+											<mn>2</mn>
+										</mrow>
+									</msub>
+									<mo>=</mo>
+									<mfrac>
+										<mrow>
+											<mo>-</mo>
+											<mi>b</mi>
+											<mo>&PlusMinus;</mo> 
+											<msqrt>
+												<msup>
+													<mi>b</mi>
+													<mn>2</mn>
+												</msup>
+												<mo>-</mo>
+												<mn>4</mn>
+												<mi>a</mi>
+												<mi>c</mi>
+											</msqrt>
+										</mrow>
+										<mrow>
+										<mn>2</mn>
+										<mi>a</mi>
+										</mrow>
+									</mfrac>	
+					        	</math>
+				        	</h4>
+						</div>
+					</td>
+				</tr>
+				<tr class='success'>
+					<td>
+						<h4>Сигма</h4>
+					</td>
+					<td>
+						<div class='container-fluid'>
+							<h4>
+								<math>
+									<mi>S</mi>
+									<mo>=</mo>
+									<mn>1</mn>
+									<mo>-</mo>
+									<mfrac>
+										<mn>1</mn>
+										<mn>2</mn>
+									</mfrac>
+									<mo>+</mo>
+									<mfrac>
+										<mn>1</mn>
+										<mn>4</mn>
+									</mfrac>
+									<mo>-</mo>
+									<mfrac>
+										<mn>1</mn>
+										<mn>8</mn>
+									</mfrac>
+									<mo>+</mo>
+									<mi>…</mi>
+									<mo>+</mo>
+									<msup>
+										<mrow>
+											<mfenced>
+												<mn>-1</mn>
+											</mfenced>
+										</mrow>
+										<mi>n</mi>
+									</msup>
+									<mfrac>
+										<mn>1</mn>
+										<msup>
+											<mn>2</mn>
+											<mi>n</mi>
+										</msup>
+									</mfrac>
+									<mo>=</mo>
+									<munderover>
+										<mi>&#x03A3;</mi>
+										<mrow>
+											<mi>i</mi>
+											<mo>=</mo>
+											<mn>0</mn>
+										</mrow>
+										<mi>n</mi>
+									</munderover>
+									<msup>
+										<mrow>
+											<mfenced>
+												<mn>-1</mn>
+											</mfenced>
+										</mrow>
+										<mi>i</mi>
+									</msup>
+									<mfrac>
+											<mn>1</mn>
+										<msup>
+											<mn>2</mn>
+											<mi>i</mi>
+										</msup>
+									</mfrac>
+								<math>
+							</h4>	
+						</div>
+					</td>
+				</tr>
+				<tr class='active'>
+					<td>
+						<h4>Интеграл</h4>
+					</td>
+					<td>
+						<div class="container-fluid">
+							<h4>
+								<math>
+									<munderover>
+										<mo>&int;</mo>
+									</munderover>
+									<mtext>&VeryThinSpace;</mtext>	
+									<mi>dx =</mi>
+									<mstyle displaystyle=’true’>
+										<munderover>
+											<mo>&int;</mo>
+											<mn>0</mn>
+											<mn>1</mn>
+										</munderover>
+										<mi>f</mi>
+										<mrow>
+											<mfenced>
+												<mi>x</mi>
+											</mfenced>
+										</mrow>
+										<mtext>&VeryThinSpace; </mtext>
+										<mo>&dd;</mo>
+										<mi>x</mi>
+									</mstyle>		
+								</math>
+							</h4>
+						</div>
+					</td>
+				</tr>
+		</table>	
+	</div>	
+	<footer align='right' style='margin:0px 20px'>
+		<h4>&copy; 2019 is coming</h4>
+	</footer>	
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			MathML: {
+				extensions: ["content-mathml.js"]
+			}
+		});
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+	
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+			crossorigin="anonymous">
+	</script>
+	</body>
+</html>
