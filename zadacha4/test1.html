@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = 'utf-8'>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Bootstrap</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	</head>
+	<body>
+		<nav class="navbar navbar-light bg-faded" style="background-color: #e3f2fd;">
+			<a class="navbar-brand" href="#">Xcution</a>
+			<ul class="nav navbar-nav  ">
+				<li class="nav-item active">
+				  <a class="nav-link" href="#"><span class="glyphicon glyphicon-home"> Home</a>
+				</li>			
+				<li class="nav-item">
+				  <a class="nav-link" href="test1.html">Трапеция</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="new 1.html">Циклы</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="massiv.html">Массивы</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="func.html">Функции</a>
+				</li>
+			</ul>
+		</nav>	
+		<ol class="breadcrumb">
+			<li><a href="#">Главная</a></li>
+			<li class="active">Трапеция</li>
+		</ol>		
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-8 ">
+						<div class="card" >
+							<form class="card-body" id="trap">
+								<h4 class="card-title">Трапеция</h4>
+								<label>Основание 1: <input min="1" type="number" step="any" required id ='a'></label>
+								<label>Основание 2: <input min="1" type="number" step="any" required id='b'></label>
+								<label>Высота: <input min="1" type="number" step="any" required id='h'></label>
+								<button  onclick="trap()" class="btn btn-primary">Ответ</button>
+							</form>
+						</div>						
+					</div>
+				</div>
+			</div>	
+		<footer align='right' style='margin:0px 20px'>
+			<h4>&copy; 2019 is coming</h4>
+		</footer>		
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+				integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+				crossorigin="anonymous">
+		</script>
+		<!-- <script src='myJava.js'></script> -->
+		<script src="myJava.js"></script>
+	</body>
+</html>
