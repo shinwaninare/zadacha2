@@ -4,7 +4,7 @@
 	<title>Canvas & Mootools</title>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mootools/1.6.0/mootools-core.js"></script>
 	<script type="text/javascript">
-		var canvas, ctx, balls, idTimer, idTime, fig, trig = 0;
+		var canvas, ctx, balls, idTimer, idTime, fig, trig = 0,N = 50;
 		var ballsup = [], ballsD = [], ballsL = [], ballsR = [];
 		TBall = new Class({
 			initialize: function(pX,pY) {
@@ -467,23 +467,29 @@
 					ballsup[i].drawT(ctx);
 				}
 				if (ballsup[i].config == 0) {				
-					if ((ballsup[i].posX + ballsup[i].rBall > canvas.width) || (ballsup[i].posX - ballsup[i].rBall  < 0) || (ballsup[i].posY - ballsup[i].rBall < 0)||(ballsup[i].posY + ballsup[i].rBall > canvas.height) ){
-						ballsup.splice(i,1);
-						balls.splice(i,1);
+					if ((ballsup[i].posX + ballsup[i].rBall > canvas.width) || (ballsup[i].posX - ballsup[i].rBall  < 0) || (ballsup[i].posY - ballsup[i].rBall < 0)||(ballsup[i].posY + ballsup[i].rBall > canvas.height) || (ballsup[i].rBall > N)){
+						var id_tag = ballsup[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsup.splice(i,1);				
 					} else
 						i++;					
 				}
 				else if (ballsup[i].config == 1) {
-					if ((ballsup[i].posX + ballsup[i].SSide > canvas.width) || (ballsup[i].posX < 0) || (ballsup[i].posY < 0)||(ballsup[i].posY + ballsup[i].SSide > canvas.height) ){
-						ballsup.splice(i,1);
-						balls.splice(i,1);
+					if ((ballsup[i].posX + ballsup[i].SSide > canvas.width) || (ballsup[i].posX < 0) || (ballsup[i].posY < 0)||(ballsup[i].posY + ballsup[i].SSide > canvas.height) || (ballsup[i].SSide > N)){
+						var id_tag = ballsup[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsup.splice(i,1);					
 					} else
 						i++;				
 				}
 				else if (ballsup[i].config == 2) {					
-					if ((ballsup[i].posX + ballsup[i].Side > canvas.width) || (ballsup[i].posX - ballsup[i].Side  < 0) || (ballsup[i].posY - ballsup[i].Side < 0)||(ballsup[i].posY + ballsup[i].Side > canvas.height) ){
-						ballsup.splice(i,1);
-						balls.splice(i,1);				
+					if ((ballsup[i].posX + ballsup[i].Side > canvas.width) || (ballsup[i].posX - ballsup[i].Side  < 0) || (ballsup[i].posY - ballsup[i].Side < 0)||(ballsup[i].posY + ballsup[i].Side > canvas.height) || (ballsup[i].Side > N)) {
+						var id_tag = ballsup[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsup.splice(i,1);									
 					} else
 						i++;
 				}			
@@ -501,23 +507,31 @@
 					ballsD[i].drawT(ctx);
 				}
 				if (ballsD[i].config == 0) {				
-					if ((ballsD[i].posX + ballsD[i].rBall > canvas.width) || (ballsD[i].posX - ballsD[i].rBall  < 0) || (ballsD[i].posY - ballsD[i].rBall < 0)||(ballsD[i].posY + ballsD[i].rBall > canvas.height) ){
+					if ((ballsD[i].posX + ballsD[i].rBall > canvas.width) || (ballsD[i].posX - ballsD[i].rBall  < 0) || (ballsD[i].posY - ballsD[i].rBall < 0)||(ballsD[i].posY + ballsD[i].rBall > canvas.height) || (ballsD[i].rBall > N) ){
+						var id_tag = ballsD[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
 						ballsD.splice(i,1);
-						balls.splice(i,1);
+						
 					} else
 						i++;					
 				}
 				else if (ballsD[i].config == 1) {
-					if ((ballsD[i].posX + ballsD[i].SSide > canvas.width) || (ballsD[i].posX < 0) || (ballsD[i].posY < 0)||(ballsD[i].posY + ballsD[i].SSide > canvas.height) ){
+					if ((ballsD[i].posX + ballsD[i].SSide > canvas.width) || (ballsD[i].posX < 0) || (ballsD[i].posY < 0)||(ballsD[i].posY + ballsD[i].SSide > canvas.height) || (ballsD[i].SSide > N)){
+						var id_tag = ballsD[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
 						ballsD.splice(i,1);
-						balls.splice(i,1);
+						
 					} else
 						i++;				
 				}
 				else if (ballsD[i].config == 2) {					
-					if ((ballsD[i].posX + ballsD[i].Side > canvas.width) || (ballsD[i].posX - ballsD[i].Side  < 0) || (ballsD[i].posY - ballsD[i].Side < 0)||(ballsD[i].posY + ballsD[i].Side > canvas.height) ){
-						ballsD.splice(i,1);
-						balls.splice(i,1);				
+					if ((ballsD[i].posX + ballsD[i].Side > canvas.width) || (ballsD[i].posX - ballsD[i].Side  < 0) || (ballsD[i].posY - ballsD[i].Side < 0)||(ballsD[i].posY + ballsD[i].Side > canvas.height) || (ballsD[i].Side > N) ){
+						var id_tag = ballsD[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsD.splice(i,1);							
 					} else
 						i++;
 				}			
@@ -535,23 +549,29 @@
 					ballsL[i].drawT(ctx);
 				}
 				if (ballsL[i].config == 0) {				
-					if ((ballsL[i].posX + ballsL[i].rBall > canvas.width) || (ballsL[i].posX - ballsL[i].rBall  < 0) || (ballsL[i].posY - ballsL[i].rBall < 0)||(ballsL[i].posY + ballsL[i].rBall > canvas.height) ){
-						ballsL.splice(i,1);
-						balls.splice(i,1);
+					if ((ballsL[i].posX + ballsL[i].rBall > canvas.width) || (ballsL[i].posX - ballsL[i].rBall  < 0) || (ballsL[i].posY - ballsL[i].rBall < 0)||(ballsL[i].posY + ballsL[i].rBall > canvas.height) || (ballsL[i].rBall > N) ){
+						var id_tag = ballsL[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsL.splice(i,1);						
 					} else
 						i++;					
 				}
 				else if (ballsL[i].config == 1) {
-					if ((ballsL[i].posX + ballsL[i].SSide > canvas.width) || (ballsL[i].posX < 0) || (ballsL[i].posY < 0)||(ballsL[i].posY + ballsL[i].SSide > canvas.height) ){
-						ballsL.splice(i,1);
-						balls.splice(i,1);
+					if ((ballsL[i].posX + ballsL[i].SSide > canvas.width) || (ballsL[i].posX < 0) || (ballsL[i].posY < 0)||(ballsL[i].posY + ballsL[i].SSide > canvas.height) || (ballsL[i].SSide > N)){
+						var id_tag = ballsL[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsL.splice(i,1);					
 					} else
 						i++;				
 				}
 				else if (ballsL[i].config == 2) {					
-					if ((ballsL[i].posX + ballsL[i].Side > canvas.width) || (ballsL[i].posX - ballsL[i].Side  < 0) || (ballsL[i].posY - ballsL[i].Side < 0)||(ballsL[i].posY + ballsL[i].Side > canvas.height) ){
-						ballsL.splice(i,1);
-						balls.splice(i,1);				
+					if ((ballsL[i].posX + ballsL[i].Side > canvas.width) || (ballsL[i].posX - ballsL[i].Side  < 0) || (ballsL[i].posY - ballsL[i].Side < 0)||(ballsL[i].posY + ballsL[i].Side > canvas.height) || (ballsL[i].Side > N)){
+						var id_tag = ballsL[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsL.splice(i,1);								
 					} else
 						i++;
 				}			
@@ -569,23 +589,29 @@
 					ballsR[i].drawT(ctx);
 				}
 				if (ballsR[i].config == 0) {				
-					if ((ballsR[i].posX + ballsR[i].rBall > canvas.width) || (ballsR[i].posX - ballsR[i].rBall  < 0) || (ballsR[i].posY - ballsR[i].rBall < 0)||(ballsR[i].posY + ballsR[i].rBall > canvas.height) ){
-						ballsR.splice(i,1);
-						balls.splice(i,1);
+					if ((ballsR[i].posX + ballsR[i].rBall > canvas.width) || (ballsR[i].posX - ballsR[i].rBall  < 0) || (ballsR[i].posY - ballsR[i].rBall < 0)||(ballsR[i].posY + ballsR[i].rBall > canvas.height) || (ballsR[i].rBall > N)){
+						var id_tag = ballsR[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsR.splice(i,1);					
 					} else
 						i++;					
 				}
 				else if (ballsR[i].config == 1) {
-					if ((ballsR[i].posX + ballsR[i].SSide > canvas.width) || (ballsR[i].posX < 0) || (ballsR[i].posY < 0)||(ballsR[i].posY + ballsR[i].SSide > canvas.height) ){
-						ballsR.splice(i,1);
-						balls.splice(i,1);
+					if ((ballsR[i].posX + ballsR[i].SSide > canvas.width) || (ballsR[i].posX < 0) || (ballsR[i].posY < 0)||(ballsR[i].posY + ballsR[i].SSide > canvas.height) || (ballsR[i].SSide > N)){
+						var id_tag = ballsR[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsR.splice(i,1);					
 					} else
 						i++;				
 				}
 				else if (ballsR[i].config == 2) {					
-					if ((ballsR[i].posX + ballsL[i].Side > canvas.width) || (ballsR[i].posX - ballsR[i].Side  < 0) || (ballsR[i].posY - ballsR[i].Side < 0)||(ballsR[i].posY + ballsR[i].Side > canvas.height) ){
-						ballsR.splice(i,1);
-						balls.splice(i,1);				
+					if ((ballsR[i].posX + ballsL[i].Side > canvas.width) || (ballsR[i].posX - ballsR[i].Side  < 0) || (ballsR[i].posY - ballsR[i].Side < 0)||(ballsR[i].posY + ballsR[i].Side > canvas.height) || (ballsR[i].Side > N)){
+						var id_tag = ballsR[i],
+						position = balls.indexOf(id_tag);
+						if ( ~position ) balls.splice(position, 1);
+						ballsR.splice(i,1);									
 					} else
 						i++;
 				}			
@@ -596,21 +622,21 @@
 				for (var i = 0; i < balls.length;i){
 					if (balls[i].config == 0) {
 						balls[i].rBall = balls[i].rBall + 1;
-						if (balls[i].rBall > 50) {
+						if (balls[i].rBall > N) {
 							balls.splice(i,1);
 						} else 
 							i++;
 					}
 					else if (balls[i].config == 1) {
 						balls[i].SSide = balls[i].SSide + 1;
-						if (balls[i].SSide > 50) {
+						if (balls[i].SSide > N) {
 							balls.splice(i,1);
 						} else
 							i++;
 					}
 					else if (balls[i].config == 2) {
 						balls[i].Side = balls[i].Side + 1;
-						if (balls[i].Side > 50) {
+						if (balls[i].Side > N) {
 							balls.splice(i,1);
 						} else
 							i++;
@@ -632,7 +658,7 @@
 	</canvas>
 	<form>
 		<input type = "button" value = "Движение" onclick="move();trig = 1;">
-		<input type = "button" value = "Стоп" onclick="clearInterval(idTimer);console.log(idTimer);trig = 0;">
+		<input type = "button" value = "Стоп" onclick="clearInterval(idTimer);trig = 0;">
 		<input type = "button" value = "Вниз" onclick="moveD();trig = 1;">
 		<input type = "button" value = "Влево" onclick="moveL();trig = 1;">
 		<input type = "button" value = "Вправо" onclick="moveR();trig = 1;">
