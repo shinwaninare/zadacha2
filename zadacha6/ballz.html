@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas & Mootools</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mootools/1.6.0/mootools-core.js"></script>
+	<script type="text/javascript">
+		var canvas, ctx, balls, idTimer, idTime, fig, trig = 0;
+		var ballsup = [], ballsD = [], ballsL = [], ballsR = [];
+		TBall = new Class({
+			initialize: function(pX,pY) {
+				this.posX = pX; //позиция шарика по X
+				this.posY = pY; //позиция шарика по Y
+				//цвет шарика, формируется случайным образом
+				this.colBall = 'rgb('+Math.floor(Math.random()*256)+','
+				+Math.floor(Math.random()*256)+','+Math.floor(Math.random()*256)+')';
+				// радиус шарика, случайное число от 5 до 30
+				this.rBall = 5+Math.random()*25;
+				this.config = 0;
+			},
+			posX: 0,
+			posY: 0,
+			colBall:"rgb(0,0,0)",
+			rBall: 0,
+			config:0,
+			colorBall: function(ctx){
+				// формируем градиентную заливку для шарика
+				with (this){
+					var gradient = ctx.createRadialGradient(posX+rBall/4,
+					posY-rBall/6, rBall/8, posX, posY, rBall);
+					gradient.addColorStop(0, '#fff');
+					gradient.addColorStop(0.85, colBall);
+					return gradient;
+				}
+			},
+			draw : function(ctx){
+				// рисуем шарик на canvas
+				with (this){
+					ctx.fillStyle = colorBall(ctx);
+					ctx.beginPath();
+					ctx.arc(posX, posY, rBall, 0, 2*Math.PI, false);
+					ctx.closePath();
+					ctx.fill();
+				}
+			}
+		});
+		TSquare = new Class({
+			initialize: function(pX,pY) {
+				this.posX = pX;
+				this.posY = pY; 			
+				this.colSquare = 'rgb('+Math.floor(Math.random()*256)+','+Math.floor(Math.random()*256)+','+Math.floor(Math.random()*256)+')';
+				this.SSide = 10 + Math.random()*30;
+				this.config = 1;
+			},
+			posX: 0,
+			posY: 0,
+			colSquare:"rgb(0,0,0)",
+			SSide: 0,
+			colorSquare: function(ctx){
+				// формируем градиентную заливку для квадрата
+				with (this){
+					var gradient = ctx.createRadialGradient(posX+SSide/4,
+					posY-SSide/6, SSide/8, posX, posY, SSide);
+					gradient.addColorStop(0, '#fff');
+					gradient.addColorStop(0.85, colSquare);
+					return gradient;
+				}
+			},
+			drawS : function(ctx){
+				with (this){
+					ctx.beginPath();
+				    ctx.moveTo(posX,posY);
+				    ctx.lineTo(posX+SSide,posY);
+				    ctx.lineTo(posX+SSide,posY+SSide);
+				    ctx.lineTo(posX	,posY+SSide);				    
+				    ctx.closePath();
+				    ctx.fillStyle = colorSquare(ctx);
+				    ctx.fill();
+				}
+			}
+		});
+		TTriangle = new Class({
+			initialize: function(pX,pY) {
+				this.posX = pX; 
+				this.posY = pY; 				
+				this.colTriangle = 'rgb('+Math.floor(Math.random()*256)+','+Math.floor(Math.random()*256)+','+Math.floor(Math.random()*256)+')';
+				this.Side = 10 + Math.random()*30;
+				this.config = 2;
+			},
+			posX: 0,
+			posY: 0,
+			colTriangle:"rgb(0,0,0)",
+			Side: 0,
+			colorTriangle: function(ctx){
+				// формируем градиентную заливку для треугольника
+				with (this){
+					var gradient = ctx.createRadialGradient(posX+Side/4,
+					posY-Side/6, Side/8, posX, posY, Side);
+					gradient.addColorStop(0, '#fff');
+					gradient.addColorStop(0.85, colTriangle);
+					return gradient;
+				}
+			},
+			drawT : function(ctx){
+				with (this){
+					ctx.beginPath();
+				    ctx.moveTo(posX,posY);
+				    ctx.lineTo(posX+Side,posY+Side);
+				    ctx.lineTo(posX+Side,posY-Side);
+				    ctx.closePath();
+				    ctx.fillStyle = colorTriangle(ctx);
+				    ctx.fill();
+				}
+			}
+		});
+		function drawBack(ctx,col1,col2,w,h){
+			// закрашиваем канвас градиентным фоном
+			ctx.save();
+			var g = ctx.createLinearGradient(0,0,0,h);
+			g.addColorStop(1,col1);
+			g.addColorStop(0,col2);
+			ctx.fillStyle = g;
+			ctx.fillRect(0,0,w,h);
+			ctx.restore();
+		}
+		// инициализация работы
+		function init(){
+			canvas = document.getElementById('canvas');
+			if (canvas.getContext){
+				ctx = canvas.getContext('2d');
+				//рисуем фон
+				drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+				//создаем 5 шариков,треугольников и квадратов, заносим их в массив и выводим на canvas
+				balls = [];
+				for (var i = 1; i<=5;i++){
+				var item = new TSquare(10+Math.random()*(canvas.width-30), 10+Math.random()*(canvas.height-30));
+					item.drawS(ctx);
+					balls.push(item);
+				}
+				for (var i = 1; i<=5;i++){
+					var item = new TBall(10+Math.random()*(canvas.width-30), 10+Math.random()*(canvas.height-30));
+					item.draw(ctx);
+					balls.push(item);
+				}
+				for (var i = 1; i<=5;i++){
+				var item = new TTriangle(10+Math.random()*(canvas.width-30), 10+Math.random()*(canvas.height-30));
+					item.drawT(ctx);
+					balls.push(item);
+				}
+			}
+		}
+		// создаем новый шарик, треугольник или квадрат по щелчку мыши, добавляем его в массив шариков и рисуем его
+		function goInput(event){
+			var x = event.clientX;
+			var y = event.clientY;
+			var fig = Math.floor(Math.random()*3);
+			if (fig == 0) {
+				var item = new TBall(x,y);
+				item.draw(ctx);
+			}
+			if (fig == 1) {
+				var item = new TSquare(x,y);
+				item.drawS(ctx);
+			}
+			if (fig == 2) {
+				var item = new TTriangle(x,y);
+				item.drawT(ctx);
+			}
+			balls.push(item);
+			var naprav = Math.floor(Math.random()*4);
+			if (naprav == 0) {
+				ballsup.push(item);
+			}
+			if (naprav == 1) {
+				ballsD.push(item);
+			}
+			if (naprav == 2) {
+				ballsL.push(item);
+			}
+			if (naprav == 3) {
+				ballsR.push(item);
+			}		
+		}
+		function moveUp(){
+			//реализация движения вверх фигур, находящихся в массиве balls
+			drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+			for (var i = 0; i < balls.length;i){
+				balls[i].posX = balls[i].posX + (Math.random()*4-2);
+				balls[i].posY = balls[i].posY + (Math.random()*2-4);
+				if (balls[i].config == 0) {
+					balls[i].draw(ctx);
+				}
+				if (balls[i].config == 1) {
+					balls[i].drawS(ctx);
+				}
+				if (balls[i].config == 2) {
+					balls[i].drawT(ctx);
+				}
+				if (balls[i].config == 0) {				
+					if ((balls[i].posX + balls[i].rBall > canvas.width) || (balls[i].posX - balls[i].rBall  < 0) || (balls[i].posY - balls[i].rBall < 0)||(balls[i].posY + balls[i].rBall > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (balls[i].config == 1) {
+					if ((balls[i].posX + balls[i].SSide > canvas.width) || (balls[i].posX < 0) || (balls[i].posY < 0)||(balls[i].posY + balls[i].SSide > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (balls[i].config == 2) {					
+					if ((balls[i].posX + balls[i].Side > canvas.width) || (balls[i].posX - balls[i].Side  < 0) || (balls[i].posY - balls[i].Side < 0)||(balls[i].posY + balls[i].Side > canvas.height) ){
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+		}
+		function move(){
+			clearInterval(idTimer);
+			idTimer = setInterval('moveUp();',50);
+		}
+		function moveDown(){
+			//реализация движения вниз фигур, находящихся в массиве balls
+			drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+			for (var i = 0; i < balls.length;i){
+				balls[i].posX = balls[i].posX + (Math.random()*4-2);
+				balls[i].posY = balls[i].posY + (Math.random()*2+4);
+				if (balls[i].config == 0) {
+					balls[i].draw(ctx);
+				}
+				if (balls[i].config == 1) {
+					balls[i].drawS(ctx);
+				}
+				if (balls[i].config == 2) {
+					balls[i].drawT(ctx);
+				}
+				if (balls[i].config == 0) {				
+					if ((balls[i].posX + balls[i].rBall > canvas.width) || (balls[i].posX - balls[i].rBall  < 0) || (balls[i].posY - balls[i].rBall < 0)||(balls[i].posY + balls[i].rBall > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (balls[i].config == 1) {
+					if ((balls[i].posX + balls[i].SSide > canvas.width) || (balls[i].posX < 0) || (balls[i].posY < 0)||(balls[i].posY + balls[i].SSide > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (balls[i].config == 2) {					
+					if ((balls[i].posX + balls[i].Side > canvas.width) || (balls[i].posX - balls[i].Side  < 0) || (balls[i].posY - balls[i].Side < 0)||(balls[i].posY + balls[i].Side > canvas.height) ){
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+		}
+		function moveD(){
+			clearInterval(idTimer);
+			idTimer = setInterval('moveDown();',50);
+		}
+		function moveLeft(){
+			//реализация движения влево фигур, находящихся в массиве balls
+			drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+			for (var i = 0; i < balls.length;i){
+				balls[i].posX = balls[i].posX + (Math.random()*4-4);
+				balls[i].posY = balls[i].posY + (Math.random()*2-1);
+				if (balls[i].config == 0) {
+					balls[i].draw(ctx);
+				}
+				if (balls[i].config == 1) {
+					balls[i].drawS(ctx);
+				}
+				if (balls[i].config == 2) {
+					balls[i].drawT(ctx);
+				}
+				if (balls[i].config == 0) {				
+					if ((balls[i].posX + balls[i].rBall > canvas.width) || (balls[i].posX - balls[i].rBall  < 0) || (balls[i].posY - balls[i].rBall < 0)||(balls[i].posY + balls[i].rBall > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (balls[i].config == 1) {
+					if ((balls[i].posX + balls[i].SSide > canvas.width) || (balls[i].posX < 0) || (balls[i].posY < 0)||(balls[i].posY + balls[i].SSide > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (balls[i].config == 2) {					
+					if ((balls[i].posX + balls[i].Side > canvas.width) || (balls[i].posX < 0) || (balls[i].posY - balls[i].Side < 0)||(balls[i].posY + balls[i].Side > canvas.height) ){
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+		}
+		function moveL(){
+			clearInterval(idTimer);
+			idTimer = setInterval('moveLeft();',50);
+		}
+		function moveRight(){
+			//реализация движения вправо фигур, находящихся в массиве balls
+			drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+			for (var i = 0; i < balls.length;i){
+				balls[i].posX = balls[i].posX + (Math.random()*4+4);
+				balls[i].posY = balls[i].posY + (Math.random()*2-1);
+				if (balls[i].config == 0) {
+					balls[i].draw(ctx);
+				}
+				if (balls[i].config == 1) {
+					balls[i].drawS(ctx);
+				}
+				if (balls[i].config == 2) {
+					balls[i].drawT(ctx);
+				}
+				if (balls[i].config == 0) {				
+					if ((balls[i].posX + balls[i].rBall > canvas.width) || (balls[i].posX - balls[i].rBall  < 0) || (balls[i].posY - balls[i].rBall < 0)||(balls[i].posY + balls[i].rBall > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (balls[i].config == 1) {
+					if ((balls[i].posX + balls[i].SSide > canvas.width) || (balls[i].posX < 0) || (balls[i].posY < 0)||(balls[i].posY + balls[i].SSide > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (balls[i].config == 2) {					
+					if ((balls[i].posX + balls[i].Side > canvas.width) || (balls[i].posX - balls[i].Side  < 0) || (balls[i].posY - balls[i].Side < 0)||(balls[i].posY + balls[i].Side > canvas.height) ){
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+		}
+		function moveR(){
+			clearInterval(idTimer);
+			idTimer = setInterval('moveRight();',50);
+		}
+		function moveChaos(){
+			//реализация хаотичного движения фигур, находящихся в массиве balls
+			drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+			for (var i = 0; i < balls.length;i){
+				var naprav = Math.floor(Math.random()*4);
+				if (naprav == 0) {
+					balls[i].posX = balls[i].posX + (Math.random()*4);
+					balls[i].posY = balls[i].posY + (Math.random()*2-4);
+					if (balls[i].config == 0) {
+						balls[i].draw(ctx);
+					}
+					if (balls[i].config == 1) {
+						balls[i].drawS(ctx);
+					}
+					if (balls[i].config == 2) {
+						balls[i].drawT(ctx);
+					}
+				}
+				if (naprav == 1) {
+					balls[i].posX = balls[i].posX + (Math.random()*4);
+					balls[i].posY = balls[i].posY + (Math.random()*2);
+					if (balls[i].config == 0) {
+						balls[i].draw(ctx);
+					}
+					if (balls[i].config == 1) {
+						balls[i].drawS(ctx);
+						}
+					if (balls[i].config == 2) {
+						balls[i].drawT(ctx);
+					}
+				}
+				if (naprav == 2) {
+					balls[i].posX = balls[i].posX + (Math.random()*4-4);
+					balls[i].posY = balls[i].posY + (Math.random()*2);
+					if (balls[i].config == 0) {
+						balls[i].draw(ctx);
+					}
+					if (balls[i].config == 1) {
+						balls[i].drawS(ctx);
+					}
+					if (balls[i].config == 2) {
+						balls[i].drawT(ctx);
+					}			
+				}
+				if (naprav == 3) {
+					balls[i].posX = balls[i].posX + (Math.random()*2);
+					balls[i].posY = balls[i].posY + (Math.random()*2);
+					if (balls[i].config == 0) {
+						balls[i].draw(ctx);
+					}
+					if (balls[i].config == 1) {
+						balls[i].drawS(ctx);
+					}
+					if (balls[i].config == 2) {
+						balls[i].drawT(ctx);
+					}				
+				}
+				if (balls[i].config == 0) {
+					balls[i].draw(ctx);
+				}
+				if (balls[i].config == 1) {
+					balls[i].drawS(ctx);
+				}
+				if (balls[i].config == 2) {
+					balls[i].drawT(ctx);
+				}
+				if (balls[i].config == 0) {				
+					if ((balls[i].posX + balls[i].rBall > canvas.width) || (balls[i].posX - balls[i].rBall  < 0) || (balls[i].posY - balls[i].rBall < 0)||(balls[i].posY + balls[i].rBall > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (balls[i].config == 1) {
+					if ((balls[i].posX + balls[i].SSide > canvas.width) || (balls[i].posX < 0) || (balls[i].posY < 0)||(balls[i].posY + balls[i].SSide > canvas.height) ){
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (balls[i].config == 2) {					
+					if ((balls[i].posX + balls[i].Side > canvas.width) || (balls[i].posX - balls[i].Side  < 0) || (balls[i].posY - balls[i].Side < 0)||(balls[i].posY + balls[i].Side > canvas.height) ){
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+		}
+		function moveCha(){
+			clearInterval(idTimer);
+			idTimer = setInterval('moveChaos();',50);
+		}
+		function moveRandom(){
+			//реализация рандомного движения шариков, находящихся в массиве balls
+			clearInterval(idTimer);
+			ballsup = [];
+			ballsD = [];
+			ballsL = [];
+			ballsR = [];
+			drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+			for (var i = 0; i < balls.length;i++){
+				var naprav = Math.floor(Math.random()*4);
+				if (naprav == 0) {
+					ballsup.push(balls[i]);
+				}
+				if (naprav == 1) {
+					ballsD.push(balls[i]);
+				}
+				if (naprav == 2) {
+					ballsL.push(balls[i]);
+				}
+				if (naprav == 3) {
+					ballsR.push(balls[i]);
+				}
+			}
+			idTimer = setInterval('moveAll();',50);
+		}
+		function moveAll(){
+			//продолжение реализации рандомного движения шариков, находящихся в массиве balls
+			drawBack(ctx,'#202020','#aaa',canvas.width,canvas.height);
+			for (var i = 0; i < ballsup.length;i){
+				ballsup[i].posX = ballsup[i].posX + (Math.random()*4-2);
+				ballsup[i].posY = ballsup[i].posY + (Math.random()*2-4);
+				if (ballsup[i].config == 0) {
+					ballsup[i].draw(ctx);
+				}
+				if (ballsup[i].config == 1) {
+					ballsup[i].drawS(ctx);
+				}
+				if (ballsup[i].config == 2) {
+					ballsup[i].drawT(ctx);
+				}
+				if (ballsup[i].config == 0) {				
+					if ((ballsup[i].posX + ballsup[i].rBall > canvas.width) || (ballsup[i].posX - ballsup[i].rBall  < 0) || (ballsup[i].posY - ballsup[i].rBall < 0)||(ballsup[i].posY + ballsup[i].rBall > canvas.height) ){
+						ballsup.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (ballsup[i].config == 1) {
+					if ((ballsup[i].posX + ballsup[i].SSide > canvas.width) || (ballsup[i].posX < 0) || (ballsup[i].posY < 0)||(ballsup[i].posY + ballsup[i].SSide > canvas.height) ){
+						ballsup.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (ballsup[i].config == 2) {					
+					if ((ballsup[i].posX + ballsup[i].Side > canvas.width) || (ballsup[i].posX - ballsup[i].Side  < 0) || (ballsup[i].posY - ballsup[i].Side < 0)||(ballsup[i].posY + ballsup[i].Side > canvas.height) ){
+						ballsup.splice(i,1);
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+			for (var i = 0; i < ballsD.length;i){
+				ballsD[i].posX = ballsD[i].posX + (Math.random()*4-2);
+				ballsD[i].posY = ballsD[i].posY + (Math.random()*2+4);
+				if (ballsD[i].config == 0) {
+					ballsD[i].draw(ctx);
+				}
+				if (ballsD[i].config == 1) {
+					ballsD[i].drawS(ctx);
+				}
+				if (ballsD[i].config == 2) {
+					ballsD[i].drawT(ctx);
+				}
+				if (ballsD[i].config == 0) {				
+					if ((ballsD[i].posX + ballsD[i].rBall > canvas.width) || (ballsD[i].posX - ballsD[i].rBall  < 0) || (ballsD[i].posY - ballsD[i].rBall < 0)||(ballsD[i].posY + ballsD[i].rBall > canvas.height) ){
+						ballsD.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (ballsD[i].config == 1) {
+					if ((ballsD[i].posX + ballsD[i].SSide > canvas.width) || (ballsD[i].posX < 0) || (ballsD[i].posY < 0)||(ballsD[i].posY + ballsD[i].SSide > canvas.height) ){
+						ballsD.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (ballsD[i].config == 2) {					
+					if ((ballsD[i].posX + ballsD[i].Side > canvas.width) || (ballsD[i].posX - ballsD[i].Side  < 0) || (ballsD[i].posY - ballsD[i].Side < 0)||(ballsD[i].posY + ballsD[i].Side > canvas.height) ){
+						ballsD.splice(i,1);
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+			for (var i = 0; i < ballsL.length;i){
+				ballsL[i].posX = ballsL[i].posX + (Math.random()*4-4);
+				ballsL[i].posY = ballsL[i].posY + (Math.random()*2-1);
+				if (ballsL[i].config == 0) {
+					ballsL[i].draw(ctx);
+				}
+				if (ballsL[i].config == 1) {
+					ballsL[i].drawS(ctx);
+				}
+				if (ballsL[i].config == 2) {
+					ballsL[i].drawT(ctx);
+				}
+				if (ballsL[i].config == 0) {				
+					if ((ballsL[i].posX + ballsL[i].rBall > canvas.width) || (ballsL[i].posX - ballsL[i].rBall  < 0) || (ballsL[i].posY - ballsL[i].rBall < 0)||(ballsL[i].posY + ballsL[i].rBall > canvas.height) ){
+						ballsL.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (ballsL[i].config == 1) {
+					if ((ballsL[i].posX + ballsL[i].SSide > canvas.width) || (ballsL[i].posX < 0) || (ballsL[i].posY < 0)||(ballsL[i].posY + ballsL[i].SSide > canvas.height) ){
+						ballsL.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (ballsL[i].config == 2) {					
+					if ((ballsL[i].posX + ballsL[i].Side > canvas.width) || (ballsL[i].posX - ballsL[i].Side  < 0) || (ballsL[i].posY - ballsL[i].Side < 0)||(ballsL[i].posY + ballsL[i].Side > canvas.height) ){
+						ballsL.splice(i,1);
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+			for (var i = 0; i < ballsR.length;i){
+				ballsR[i].posX = ballsR[i].posX + (Math.random()*4+4);
+				ballsR[i].posY = ballsR[i].posY + (Math.random()*2-1);
+				if (ballsR[i].config == 0) {
+					ballsR[i].draw(ctx);
+				}
+				if (ballsR[i].config == 1) {
+					ballsR[i].drawS(ctx);
+				}
+				if (ballsR[i].config == 2) {
+					ballsR[i].drawT(ctx);
+				}
+				if (ballsR[i].config == 0) {				
+					if ((ballsR[i].posX + ballsR[i].rBall > canvas.width) || (ballsR[i].posX - ballsR[i].rBall  < 0) || (ballsR[i].posY - ballsR[i].rBall < 0)||(ballsR[i].posY + ballsR[i].rBall > canvas.height) ){
+						ballsR.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;					
+				}
+				else if (ballsR[i].config == 1) {
+					if ((ballsR[i].posX + ballsR[i].SSide > canvas.width) || (ballsR[i].posX < 0) || (ballsR[i].posY < 0)||(ballsR[i].posY + ballsR[i].SSide > canvas.height) ){
+						ballsR.splice(i,1);
+						balls.splice(i,1);
+					} else
+						i++;				
+				}
+				else if (ballsR[i].config == 2) {					
+					if ((ballsR[i].posX + ballsL[i].Side > canvas.width) || (ballsR[i].posX - ballsR[i].Side  < 0) || (ballsR[i].posY - ballsR[i].Side < 0)||(ballsR[i].posY + ballsR[i].Side > canvas.height) ){
+						ballsR.splice(i,1);
+						balls.splice(i,1);				
+					} else
+						i++;
+				}			
+			}
+		}
+		function grow (){
+			if (trig != 0) {
+				for (var i = 0; i < balls.length;i){
+					if (balls[i].config == 0) {
+						balls[i].rBall = balls[i].rBall + 1;
+						if (balls[i].rBall > 50) {
+							balls.splice(i,1);
+						} else 
+							i++;
+					}
+					else if (balls[i].config == 1) {
+						balls[i].SSide = balls[i].SSide + 1;
+						if (balls[i].SSide > 50) {
+							balls.splice(i,1);
+						} else
+							i++;
+					}
+					else if (balls[i].config == 2) {
+						balls[i].Side = balls[i].Side + 1;
+						if (balls[i].Side > 50) {
+							balls.splice(i,1);
+						} else
+							i++;
+					}
+				}
+			}
+		}
+		function startGrow(){
+			clearInterval(idTime);
+			idTime = setInterval('grow();',100);
+		}
+	</script>
+	<style type="text/css">
+		canvas { border: 1px solid blue; }
+	</style>
+</head>
+<body onload="init();">
+	<canvas id="canvas" width="600" height="400" onclick="goInput(event);">
+	</canvas>
+	<form>
+		<input type = "button" value = "Движение" onclick="move();trig = 1;">
+		<input type = "button" value = "Стоп" onclick="clearInterval(idTimer);console.log(idTimer);trig = 0;">
+		<input type = "button" value = "Вниз" onclick="moveD();trig = 1;">
+		<input type = "button" value = "Влево" onclick="moveL();trig = 1;">
+		<input type = "button" value = "Вправо" onclick="moveR();trig = 1;">
+		<input type = "button" value = "Хаос" onclick="moveCha();trig = 1;">
+		<input type = "button" value = "random" onclick="moveRandom();trig = 1;">
+		<input type = "button" value = "рост" onclick="startGrow()">
+	</form>
+</body>
+</html>
